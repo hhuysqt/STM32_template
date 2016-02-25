@@ -1,11 +1,11 @@
 # general Makefile
 # make OptLIB=0 OptSRC=0 all tshow  
 include Makefile.common
-LDFLAGS=$(COMMONFLAGS) -fno-exceptions -ffunction-sections -fdata-sections -L$(LIBDIR) -nostartfiles -Wl,--gc-sections,-Tlinker.ld
+LDFLAGS=$(COMMONFLAGS) -fno-exceptions -ffunction-sections -fdata-sections -L$(LIBDIR) -nostartfiles -Wl,--gc-sections,-Tstm32_flash.ld
 
 LDLIBS+=-lm
 LDLIBS+=-lstm32
-# LDLIBS+=-lgcc
+LDLIBS+=-lstartup
 
 all: tshow libs src
 	$(CC) -o $(PROGRAM).elf $(LDFLAGS) \
@@ -13,8 +13,8 @@ all: tshow libs src
 			src/app.a \
 		-Wl,--no-whole-archive \
 			$(LDLIBS)
-	$(OBJCOPY) -O ihex $(PROGRAM).elf $(PROGRAM).hex
-	$(OBJCOPY) -O binary $(PROGRAM).elf $(PROGRAM).bin
+#	$(OBJCOPY) -O ihex $(PROGRAM).elf $(PROGRAM).hex
+#	$(OBJCOPY) -O binary $(PROGRAM).elf $(PROGRAM).bin
 #Extract info contained in ELF to readable text-files:
 	arm-none-eabi-readelf -a $(PROGRAM).elf > $(PROGRAM).info_elf
 	arm-none-eabi-size -d -B -t $(PROGRAM).elf > $(PROGRAM).info_size
@@ -42,10 +42,10 @@ clean:
 
 tshow:
 	@echo "$(TOP)"
-	@echo "######################################################################################################"
+	@echo "##########################################################################################"
 	@echo "                          Making : $(PROGRAM)"
 	@echo "             optimize settings: $(InfoTextLib), $(InfoTextSrc)"
-	@echo "######################################################################################################"
+	@echo "##########################################################################################"
 
 flash:all
 	./do_flash.pl $(TOP)/main.bin  
