@@ -2,7 +2,7 @@
 
 include ../Makefile.common
 
-OBJS+=startup.o
+#OBJS+=startup.o
 OBJS+=main.o
 
 all: app.a

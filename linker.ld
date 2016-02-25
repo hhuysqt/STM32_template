@@ -45,7 +45,7 @@ SECTIONS {
 		KEEP(*(.isr_vectors))
 		. = ALIGN(4);
 		CREATE_OBJECT_SYMBOLS
-		*(.text .text.*)
+		*(.text .text*)
 	} >FLASH
 	.rodata : ALIGN (4) {
 		*(.rodata .rodata.*)
