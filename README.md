@@ -22,6 +22,12 @@ https://www.segger.com/jlink-software.html
 <br>Makefiles are modified from others. See also:
 <br>https://www.embbnux.com/2014/02/01/linux_stm32_gcc_makefile/
 
+<br>Please refer to<br>
+ http://mcuoneclipse.com/2012/11/01/defining-variables-at-absolute-addresses-with-gcc/ 
+<br>and<br>
+ http://www.embedds.com/programming-stm32-discovery-using-gnu-tools-linker-script/
+<br>for tips to understand THIS linker.ld
+
 ##File tree:
 <br>.
 <br>├── inc
