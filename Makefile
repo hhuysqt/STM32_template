@@ -3,18 +3,16 @@
 include Makefile.common
 LDFLAGS=$(COMMONFLAGS) -fno-exceptions -ffunction-sections -fdata-sections -L$(LIBDIR) -nostartfiles -Wl,--gc-sections,-Tstm32_flash.ld
 
-LDLIBS+=-lm
 LDLIBS+=-lstm32
 LDLIBS+=-lstartup
 
 all: tshow libs src
 	$(CC) -o $(PROGRAM).elf $(LDFLAGS) \
-		-Wl,--whole-archive \
-			src/app.a \
-		-Wl,--no-whole-archive \
+		src/*.o \
 			$(LDLIBS)
+# There's a proble with objcopy when making he file, so I commented the following line.
 #	$(OBJCOPY) -O ihex $(PROGRAM).elf $(PROGRAM).hex
-#	$(OBJCOPY) -O binary $(PROGRAM).elf $(PROGRAM).bin
+	$(OBJCOPY) -O binary $(PROGRAM).elf $(PROGRAM).bin
 #Extract info contained in ELF to readable text-files:
 	arm-none-eabi-readelf -a $(PROGRAM).elf > $(PROGRAM).info_elf
 	arm-none-eabi-size -d -B -t $(PROGRAM).elf > $(PROGRAM).info_size
