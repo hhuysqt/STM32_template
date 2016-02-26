@@ -6,3 +6,4 @@
 *.bin
 *info_*
 !.gitignore
+notes.txt
