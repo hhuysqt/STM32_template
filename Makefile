@@ -10,9 +10,8 @@ all: tshow libs src
 	$(CC) -o $(PROGRAM).elf $(LDFLAGS) \
 		src/*.o \
 			$(LDLIBS)
-# There's a proble with objcopy when making he file, so I commented the following line.
-#	$(OBJCOPY) -O ihex $(PROGRAM).elf $(PROGRAM).hex
-#	$(OBJCOPY) -O binary $(PROGRAM).elf $(PROGRAM).bin
+	$(OBJCOPY) -O ihex $(PROGRAM).elf $(PROGRAM).hex
+	$(OBJCOPY) -O binary $(PROGRAM).elf $(PROGRAM).bin
 #Extract info contained in ELF to readable text-files:
 	arm-none-eabi-readelf -a $(PROGRAM).elf > $(PROGRAM).info_elf
 	arm-none-eabi-size -d -B -t $(PROGRAM).elf > $(PROGRAM).info_size
