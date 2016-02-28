@@ -9114,7 +9114,7 @@ LoopFillZerobss:
 
 CopyDataInit:
 	ldr	r3, =_sidata
- 8002fb0:	00000120 	.word	0x00000120
+ 8002fb0:	08002fc8 	.word	0x08002fc8
 	ldr	r3, [r3, r1]
 	str	r3, [r0, r1]
 	adds	r1, r1, #4
