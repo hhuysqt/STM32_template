@@ -67,6 +67,9 @@ SECTIONS
 
     . = ALIGN(4);
     _etext = .;        /* define a global symbols at end of code */
+
+    /* used by the startup to initialize data */
+    _sidata = .;
   } >FLASH
 
 
@@ -99,9 +102,6 @@ SECTIONS
     KEEP (*(SORT(.fini_array.*)))
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
-
-  /* used by the startup to initialize data */
-  _sidata = .;
 
   /* Initialized data sections goes into RAM, load LMA copy after code */
   .data : AT ( _sidata )
