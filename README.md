@@ -29,7 +29,7 @@ You can find JLINK driver here:
 <br>for tips to understand THIS stm32_flash.ld
 
 ##Steps:
-1: Download Jlink **'Software and documentation pack'** and install it. With deb package (jlink_5.10.16_x86_64), you may use the following command:
+1: Download Jlink `Software and documentation pack` and install it. With `deb` package (jlink_5.10.16_x86_64), you may use the following command:
 >**\# dpkg -i jlink_5.10.16_x86_64.deb**
 
 2: Make, and then you can see `main.elf`, `main.bin`, `main.hex`. At the same time, ELF information are extracted to `main.info_elf`, `main.info_code`, `main.info_size`, `main.info_symbol`.
@@ -39,7 +39,7 @@ You can find JLINK driver here:
 >>**\# JLinkGDBServer -device stm32f103c8 -if SWD**
 
 >Open another terminal, and launch:
->>**\$ arm-none-eabi-gdb main.elf**
+>>**$ arm-none-eabi-gdb main.elf**
 
 >In it, type (`2331` is the default Jlink gdb server port):
 >>**(gdb) target remote localhost:2331**
