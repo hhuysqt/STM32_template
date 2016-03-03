@@ -1,27 +1,49 @@
 # general Makefile
 # make OptLIB=0 OptSRC=0 all tshow  
 include Makefile.common
-LDFLAGS=$(COMMONFLAGS) -fno-exceptions -ffunction-sections -fdata-sections -L$(LIBDIR) -nostartfiles -Wl,--gc-sections,-Tstm32_flash.ld
+LDFLAGS=$(COMMONFLAGS) -fno-exceptions -ffunction-sections -fdata-sections -L$(LIBDIR) -nostartfiles 
 
 LDLIBS+=-lstm32
-LDLIBS+=-lstartup
 
-all: tshow libs src
-	$(CC) -o $(PROGRAM).elf $(LDFLAGS) \
-		src/*.o \
-			$(LDLIBS)
-	$(OBJCOPY) -O ihex $(PROGRAM).elf $(PROGRAM).hex
-	$(OBJCOPY) -O binary $(PROGRAM).elf $(PROGRAM).bin
-#Extract info contained in ELF to readable text-files:
+define extract_info
+	@echo '              Extract info contained in ELF to readable text-files:'
 	arm-none-eabi-readelf -a $(PROGRAM).elf > $(PROGRAM).info_elf
 	arm-none-eabi-size -d -B -t $(PROGRAM).elf > $(PROGRAM).info_size
 	arm-none-eabi-objdump -S $(PROGRAM).elf > $(PROGRAM).info_code
 	arm-none-eabi-nm -t d -S --size-sort -s $(PROGRAM).elf > $(PROGRAM).info_symbol
+endef
 
-.PHONY: libs src clean tshow
+define extract_bin_hex
+	$(OBJCOPY) -O ihex $(PROGRAM).elf $(PROGRAM).hex
+	$(OBJCOPY) -O binary $(PROGRAM).elf $(PROGRAM).bin
+endef
+	
+stm32_md: tshow libs_md src
+	@echo 'Building for STM32 MD devices'
+	$(CC) -o $(PROGRAM).elf $(LDFLAGS) \
+		src/*.o \
+		$(LDLIBS) -lstartup_md \
+		-Wl,--gc-sections,-Tstm32_md.ld
+	$(call extract_bin_hex)
+	$(call extract_info)
 
-libs:
-	$(MAKE) -C libs
+stm32_hd: tshow libs_hd src
+	@echo 'Building for STM32 HD devices'
+	$(CC) -o $(PROGRAM).elf $(LDFLAGS) \
+		src/*.o \
+		$(LDLIBS) -lstartup_hd \
+		-Wl,--gc-sections,-Tstm32_hd.ld
+	$(call extract_bin_hex)
+	$(call extract_info)
+
+.PHONY: libs_hd libs_md src clean tshow stm32_md stm32_hd
+
+libs_md:
+	$(MAKE) -C libs $@
+
+libs_hd:
+	$(MAKE) -C libs $@
+
 src:
 	$(MAKE) -C src
 

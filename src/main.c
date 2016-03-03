@@ -3,9 +3,9 @@
 #include <stm32f10x_gpio.h>
 #include <stm32f10x_tim.h>
 
-#define LED_PIN GPIO_Pin_0
-#define LED_ON GPIO_ResetBits(GPIOB, LED_PIN);
-#define LED_OFF GPIO_SetBits(GPIOB, LED_PIN);
+#define LED_PIN GPIO_Pin_6
+#define LED_ON GPIO_ResetBits(GPIOF, LED_PIN);
+#define LED_OFF GPIO_SetBits(GPIOF, LED_PIN);
 
 void InitWorld(void)
 {
@@ -38,13 +38,13 @@ int main()
 	{
 		GPIO_InitTypeDef LEDIO;
 		
-		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);
 		
-		LEDIO.GPIO_Mode = GPIO_Mode_Out_OD;
+		LEDIO.GPIO_Mode = GPIO_Mode_Out_PP;
 		LEDIO.GPIO_Speed = GPIO_Speed_50MHz;
 		LEDIO.GPIO_Pin = LED_PIN;
 		
-		GPIO_Init(GPIOB, &LEDIO);
+		GPIO_Init(GPIOF, &LEDIO);
 	}
 
 	while(1)
